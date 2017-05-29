@@ -97,7 +97,7 @@ public final class PDFViewController: UIViewController {
     fileprivate var backButton: UIBarButtonItem?
     
     /// Background color to apply to the collectionView.
-    public var backgroundColor: UIColor? = .lightGray {
+    public var backgroundColor: UIColor? = .white {
         didSet {
             collectionView?.backgroundColor = backgroundColor
         }
@@ -134,12 +134,13 @@ public final class PDFViewController: UIViewController {
         collectionView.register(PDFPageCollectionViewCell.self, forCellWithReuseIdentifier: "page")
         
         navigationItem.rightBarButtonItem = actionButton
+        
         if let backItem = backButton {
             navigationItem.leftBarButtonItem = backItem
         }
         
         let numberOfPages = CGFloat(document.pageCount)
-        let cellSpacing = CGFloat(2.0)
+        let cellSpacing = CGFloat(2)
         let totalSpacing = (numberOfPages - 1.0) * cellSpacing
         let thumbnailWidth = (numberOfPages * PDFThumbnailCell.cellSize.width) + totalSpacing
         let width = min(thumbnailWidth, view.bounds.width)
@@ -152,7 +153,7 @@ public final class PDFViewController: UIViewController {
     }
     
     override public var prefersStatusBarHidden: Bool {
-        return navigationController?.isNavigationBarHidden == true
+        return true
     }
     
     override public var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
@@ -198,9 +199,16 @@ public final class PDFViewController: UIViewController {
     
     /// Presents activity sheet to share or open PDF in another app
     private func presentActivitySheet() {
-        let controller = UIActivityViewController(activityItems: [document.fileData], applicationActivities: nil)
-        controller.popoverPresentationController?.barButtonItem = actionButton
-        present(controller, animated: true, completion: nil)
+        if document.fileURL == nil {
+            let controller = UIActivityViewController(activityItems: [document.fileData], applicationActivities: nil)
+            controller.popoverPresentationController?.barButtonItem = actionButton
+            present(controller, animated: true, completion: nil)
+        }else{
+            let controller = UIActivityViewController(activityItems: [document.fileURL!], applicationActivities: nil)
+            controller.popoverPresentationController?.barButtonItem = actionButton
+            present(controller, animated: true, completion: nil)
+        }
+        
     }
     
     /// Presents print sheet to print PDF
