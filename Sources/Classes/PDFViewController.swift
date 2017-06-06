@@ -97,7 +97,7 @@ public final class PDFViewController: UIViewController {
     fileprivate var backButton: UIBarButtonItem?
     
     /// Background color to apply to the collectionView.
-    public var backgroundColor: UIColor? = .white {
+    public var backgroundColor: UIColor? = .lightGray {
         didSet {
             collectionView?.backgroundColor = backgroundColor
         }
@@ -134,13 +134,12 @@ public final class PDFViewController: UIViewController {
         collectionView.register(PDFPageCollectionViewCell.self, forCellWithReuseIdentifier: "page")
         
         navigationItem.rightBarButtonItem = actionButton
-        
         if let backItem = backButton {
             navigationItem.leftBarButtonItem = backItem
         }
         
         let numberOfPages = CGFloat(document.pageCount)
-        let cellSpacing = CGFloat(2)
+        let cellSpacing = CGFloat(2.0)
         let totalSpacing = (numberOfPages - 1.0) * cellSpacing
         let thumbnailWidth = (numberOfPages * PDFThumbnailCell.cellSize.width) + totalSpacing
         let width = min(thumbnailWidth, view.bounds.width)
@@ -153,7 +152,7 @@ public final class PDFViewController: UIViewController {
     }
     
     override public var prefersStatusBarHidden: Bool {
-        return true
+        return navigationController?.isNavigationBarHidden == true
     }
     
     override public var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
@@ -208,7 +207,6 @@ public final class PDFViewController: UIViewController {
             controller.popoverPresentationController?.barButtonItem = actionButton
             present(controller, animated: true, completion: nil)
         }
-        
     }
     
     /// Presents print sheet to print PDF
