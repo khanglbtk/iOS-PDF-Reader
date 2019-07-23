@@ -61,7 +61,7 @@ public final class PDFViewController: UIViewController {
         case activitySheet
         
         /// Performs a custom action
-        case customAction((Void) -> ())
+        case customAction(() -> ())
     }
     
     /// Collection veiw where all the pdf pages are rendered
@@ -116,7 +116,7 @@ public final class PDFViewController: UIViewController {
     }
     
     /// Slides horizontally (from left to right, default) or vertically (from top to bottom)
-    public var scrollDirection: UICollectionViewScrollDirection = .horizontal {
+    public var scrollDirection: UICollectionView.ScrollDirection = .horizontal {
         didSet {
             if collectionView == nil {  // if the user of the controller is trying to change the scrollDiecton before it
                 _ = view                // is on the sceen, we need to show it ofscreen to access it's collectionView.
@@ -185,7 +185,7 @@ public final class PDFViewController: UIViewController {
     }
     
     /// Takes an appropriate action based on the current action style
-    func actionButtonPressed() {
+    @objc func actionButtonPressed() {
         switch actionStyle {
         case .print:
             print()

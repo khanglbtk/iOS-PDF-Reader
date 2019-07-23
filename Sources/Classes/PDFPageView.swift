@@ -87,7 +87,7 @@ internal final class PDFPageView: UIScrollView {
         }
         
         contentView.addSubview(backgroundImageView)
-        contentView.sendSubview(toBack: backgroundImageView)
+        contentView.sendSubviewToBack(backgroundImageView)
         contentView.addSubview(tiledPDFView)
         addSubview(contentView)
         
@@ -104,7 +104,7 @@ internal final class PDFPageView: UIScrollView {
         singleTapOne.require(toFail: doubleTapOne)
         
         bouncesZoom = false
-        decelerationRate = UIScrollViewDecelerationRateFast
+        decelerationRate = UIScrollView.DecelerationRate.fast
         delegate = self
         autoresizesSubviews = true
         autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -146,12 +146,12 @@ internal final class PDFPageView: UIScrollView {
     }
     
     /// Notifies the delegate that a single tap was performed
-    func handleSingleTap(_ tapRecognizer: UITapGestureRecognizer) {
+    @objc func handleSingleTap(_ tapRecognizer: UITapGestureRecognizer) {
         pageViewDelegate?.handleSingleTap(self)
     }
     
     /// Zooms in and out accordingly, based on the current zoom level
-    func handleDoubleTap(_ tapRecognizer: UITapGestureRecognizer) {
+    @objc func handleDoubleTap(_ tapRecognizer: UITapGestureRecognizer) {
         var newScale = zoomScale * zoomLevels
         if newScale >= maximumZoomScale {
             newScale = minimumZoomScale
